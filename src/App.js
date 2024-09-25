@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Userlist from "./components/Userlist";
+import Chance from "chance";
+import {adduser} from "./store/slices/userSlice";
+//import { Dispatch } from "react";
+import { useDispatch } from "react-redux";
 
 function App() {
+  const dispatch = useDispatch();
+  const chance = new Chance();
+
+  const addNewUser = (...name) => {
+    //console.log(name);
+    dispatch(adduser(name));
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Redux toolkit for state management</h1>
+      <button
+        onClick={() =>
+          addNewUser(
+            chance.name({ prefix: true }),
+            chance.ssn({ ssnFour: true })
+          )
+        }>
+        Add User
+      </button>
+      <Userlist></Userlist>
     </div>
   );
 }
